@@ -1,0 +1,36 @@
+<div>
+  <div class="pannel">
+    <div class="userlist">
+      <div  *ngFor="let e of this.users">
+        <div class="userEntry" (click)="onUserClick(e)">
+          <p>{{e.name}}<p>
+        </div>
+      </div>
+    </div>
+    <div class="messagelist">
+        <div *ngIf="this.openedChat != null">
+          <div class="messageListTop">{{this.openedChat.username}}</div>
+          <div class="messageListMid">
+            <div *ngFor="let e of this.chatMessages">
+              <div class="messageEntryLeft" *ngIf="e.side === 'LEFT'" >
+                <p>{{e.message}}</p>  
+              </div>
+              <div class="messageEntryRightSeen" *ngIf="e.side === 'RIGHT' && e.seen" >
+                <p>{{e.message}}</p>  
+              </div>
+              <div class="messageEntryRight" *ngIf="e.side === 'RIGHT' && !e.seen" >
+                <p>{{e.message}}</p>  
+              </div>
+            </div>
+          </div>
+          <div class="downbar">
+            <p *ngIf="this.showTypingNotification" style="color:white">{{this.openedChat.name}} is typing...</p>
+            <input #textField style="display:inline-block; width:75%;" (input)="onTyping()"/>
+            <button style="display:inline-block; width:10%;"(click)="onSendClick(textField.value)"> send </button>
+          </div>
+        </div>
+    </div>
+      
+  </div>
+
+</div>

@@ -1,0 +1,116 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: 'guest'  
+      RABBITMQ_DEFAULT_PASS: 'guest' 
+    networks:
+      - my-network
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'energyuser'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - "3307:3306"
+    networks:
+      - my-network
+    volumes:
+      - user-db-volume:/var/lib/mysql
+  db2:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'energydevice'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - "3308:3306"
+    networks:
+      - my-network
+    volumes:
+      - device-db-volume:/var/lib/mysql
+  db3:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'energymonitoring'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - "3309:3306"
+    networks:
+      - my-network
+    volumes:
+      - monitoring-db-volume:/var/lib/mysql
+
+  springdemo:
+    image: user-image
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_IP=db
+      - DB_PORT=3306
+      - DB_DBNAME=energyuser
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - USERS_MICROSERVICE_IP=http://springdemo:8080
+      - DEVICES_MICROSERVICE_IP=http://springdemo2:8081
+      - MONITORING_MICROSERVICE_IP=http://springdemo3:8082
+      - CHAT_MICROSERVICE_IP=http://springdemo4:8083
+    networks:
+      - my-network
+  springdemo2:
+    image: device-image
+    ports:
+      - "8081:8081"
+    environment:
+      - DB_IP=db2
+      - DB_PORT=3306
+      - DB_DBNAME=energydevice
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - RABBITMQ_HOST=rabbitmq
+    networks:
+      - my-network
+  springdemo3:
+    image: monitoring-image
+    ports:
+      - "8082:8082"
+    environment:
+      - DB_IP=db3
+      - DB_PORT=3306
+      - DB_DBNAME=energymonitoring
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - RABBITMQ_HOST=rabbitmq
+    networks:
+      - my-network
+  springdemo4:
+    image: chat-image
+    ports:
+      - "8083:8083"
+    networks:
+      - my-network
+  frontend:
+    image: energy-frontend
+    ports:
+      - "4200:4200"
+    networks:
+      - my-network      
+
+networks:
+  my-network:
+    external: true
+
+volumes:
+  user-db-volume:
+  device-db-volume:
+  monitoring-db-volume:
+  rabbitmq-data:
+

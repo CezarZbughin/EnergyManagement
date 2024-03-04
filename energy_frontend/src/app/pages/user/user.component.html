@@ -1,0 +1,16 @@
+<div class="pannel">
+    <label> Karma Police</label>
+
+    <div class = "flex_box">
+        <div  *ngFor="let e of this.userDevicesDTO.devices">
+            <div class = "device" (click) = "onDeviceClick(e.id)">
+                <p style = "margin-left: 20px;">Description: {{e.description}}</p>
+                <p style = "margin-left: 20px;">Address: {{e.address}}</p>
+                <p style = "margin-left: 20px;">Max Consumption: {{e.maxHourlyConsumption}} hours</p>
+            </div>
+        </div>
+    </div>
+    
+    <simple-notifications></simple-notifications>
+</div>
+

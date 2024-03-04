@@ -1,0 +1,55 @@
+<div class="pannel">
+    <label class="title"> Users </label>
+    
+    <div style="display:inline;">
+        <label class="whitefield" >Description: </label>
+        <input class="whitefield" #descriptionField matInput placeholder="Description">
+    </div>
+
+    <div style="display:inline;">
+        <label class="whitefield" >Description: </label>
+        <input class="whitefield" #addressField matInput placeholder="Address">
+    </div>
+
+    <div style="display:inline;">
+        <label class="whitefield">Max Hourly consumtion: </label>
+        <input class="whitefield" #maxHourlyConsumtionField matInput placeholder="Max">
+    </div>
+
+    
+    <select class="whitefield" #ownerSelect>
+        <option *ngFor="let u of this.users" [value]="u.id">{{ u.username }}</option>
+    </select>
+
+    <button (click)="onDeviceAdd(descriptionField.value, addressField.value, maxHourlyConsumtionField.value, ownerSelect.value)"> add </button>
+
+    <div class = "flex_box">
+        <div  *ngFor="let e of this.devices">
+            <div class = "device">
+                <div style="display:inline;">
+                    <label>Description: </label>
+                    <input matInput placeholder="Description" (change)="onDescriptionChange($event, e)" value={{e.description}}>
+                </div>
+
+                <div style="display:inline;">
+                    <label>Address: </label>
+                    <input matInput placeholder="Address" (change)="onAddressChange($event, e)" value={{e.address}}>
+                </div>
+                
+                <div style="display:inline;">
+                    <label>Max Hourly Consumtion: </label>
+                    <input matInput placeholder="Max Hourly consumtion" (change)="onMaxHourlyConsumptionChange($event, e)" value={{e.maxHourlyConsumption}}>
+                </div>
+
+                <select (change)="onOwnerChange($event, e)"  >
+                    <option *ngFor="let u of this.users" [value]="u.id" [selected]="u.id===e.owner">{{ u.username }}</option>
+                </select>
+
+                <button (click)="onDeleteDevice(e)"> delete </button>
+            </div>
+        </div>
+    </div>
+
+    <button (click)="onUsersClick()"> Users </button>
+    
+</div>

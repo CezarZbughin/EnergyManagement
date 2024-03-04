@@ -1,0 +1,51 @@
+<div class="pannel">
+    <label class="title"> Users </label>
+    
+    <div style="display:inline;">
+        <label class="whitefield" >Name: </label>
+        <input class="whitefield" #nameField matInput placeholder="Name">
+    </div>
+
+    <div style="display:inline;">
+        <label class="whitefield">Username: </label>
+        <input class="whitefield" #usernameField matInput placeholder="Username">
+    </div>
+
+    <div style="display:inline;">
+        <label class="whitefield">Password: </label>
+        <input class="whitefield" #passwordField matInput placeholder="Username">
+    </div>
+
+    <div style="display:inline;">
+        <label class="whitefield">Role: </label>
+        <input class="whitefield" #roleField matInput placeholder="Role">
+    </div>
+    
+    <button (click)="onUserAdd(nameField.value, usernameField.value, passwordField.value, roleField.value)"> add </button>
+
+    <div class = "flex_box">
+        <div  *ngFor="let e of this.users">
+            <div class = "device">
+                <div style="display:inline;">
+                    <label>Name: </label>
+                    <input matInput placeholder="Name" (change)="onNameChange($event, e)" value={{e.name}}>
+                </div>
+
+                <div style="display:inline;">
+                    <label>Username: </label>
+                    <input [readonly]="true" matInput placeholder="Username" value={{e.username}}>
+                </div>
+                
+                <div style="display:inline;">
+                    <label>Role: </label>
+                    <input matInput placeholder="Name" (change)="onRoleChange($event, e)" value={{e.role}}>
+                </div>
+
+                <button (click)="onDeleteUser(e)"> delete </button>
+            </div>
+        </div>
+    </div>
+
+    <button (click)="onDevicesClick()"> devices </button>
+    
+</div>

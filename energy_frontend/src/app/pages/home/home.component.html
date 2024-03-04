@@ -1,0 +1,26 @@
+<div>
+  <div class="pannel">
+  <div class="main">  	
+      <input type="checkbox" id="chk" aria-hidden="true">
+
+        <div class="signup">
+          <form>
+            <label for="chk" aria-hidden="true">Sign up</label>
+            <input #nameSignField matInput type="text" placeholder="Name">
+            <input #usernameSignField matInput type="text" placeholder="Username">
+            <input #passwordSignField matInput type="text" placeholder="password">
+            <button type="button" (click) = "onSignUpClick(nameSignField.value, usernameSignField.value, passwordSignField.value)">Sign up</button>
+          </form>
+        </div>
+
+        <div class="login">
+          <form>
+            <label for="chk" aria-hidden="true">Login</label>
+            <input #usernameField matInput type="text" placeholder="Username">
+            <input #passwordField matInput type="text" placeholder="password">
+            <button type="button" (click) = "onLoginClick(usernameField.value, passwordField.value)">Login</button>
+          </form>
+        </div>
+    </div>
+  </div>
+</div>
